@@ -34,9 +34,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $posts;
 
+    #[ORM\OneToMany(mappedBy: 'freind', targetEntity: Relationships::class)]
+    private Collection $relationships;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Commentaire::class, orphanRemoval: true)]
+    private Collection $commentaires;
+
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->relationships = new ArrayCollection();
+        $this->relationships2 = new ArrayCollection();
+        $this->relationship = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,4 +149,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Relationships>
+     */
+    public function getRelationships(): Collection
+    {
+        return $this->relationships;
+    }
+
+    public function addRelationship(Relationships $relationship): self
+    {
+        if (!$this->relationships->contains($relationship)) {
+            $this->relationships->add($relationship);
+            $relationship->setFreind($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelationship(Relationships $relationship): self
+    {
+        if ($this->relationships->removeElement($relationship)) {
+            // set the owning side to null (unless already changed)
+            if ($relationship->getFreind() === $this) {
+                $relationship->setFreind(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getAuthor() === $this) {
+                $commentaire->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

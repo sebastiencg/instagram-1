@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="style/userPage.css">
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <header>
+
+        <div class="container">
+
+            <div class="profile">
+
+                <div class="profile-image">
+
+                    <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+
+                </div>
+
+                <div class="profile-user-settings">
+
+                    <h1 class="profile-user-name">{{ user.username }}</h1>
+
+                    <a class="btn profile-edit-btn" href="{{ path('create_post') }}">New post</a>
+                    <a class="btn profile-edit-btn" href="{{ path('app_post') }}">Back</a>
+                    <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">logout</a>
+
+                    <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+
+                </div>
+
+                <div class="profile-stats">
+
+                    <ul>
+                        <li><span class="profile-stat-count">{{ numberPost }}</span> posts</li>
+                        <li><span class="profile-stat-count">{{ friends }}</span> followers</li>
+                    </ul>
+
+                </div>
+
+                <div class="profile-bio">
+
+                    <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+
+                </div>
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+
+    </header>
+
+    <main>
+
+        <div class="container">
+
+            <div class="gallery">
+
+                {% for post in posts %}
+                <div class="gallery-item" tabindex="0">
+
+                    <img src="{{ vich_uploader_asset(post.image, 'imageFile') }}" class="gallery-image">
+
+                    <div class="gallery-item-info">
+
+                        <ul>
+                            <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i>{{ post.avis }}</li>
+                            <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+                {% endfor %}
+
+
+            </div>
+            <!-- End of gallery -->
+
+        </div>
+        <!-- End of container -->
+
+    </main>
+{% endblock %}
