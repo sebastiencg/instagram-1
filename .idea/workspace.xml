@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ebda32f-a299-4354-834c-bb4fe8886cb9" name="Changes" comment="new">
-      <change afterPath="$PROJECT_DIR$/public/style/showPage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/post/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Commentaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Commentaire.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/post/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/post/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/post/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/post/index.html.twig" afterDir="false" />
-    </list>
+    <list default="true" id="4ebda32f-a299-4354-834c-bb4fe8886cb9" name="Changes" comment="new" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -218,7 +209,7 @@
       <workItem from="1683551068555" duration="3423000" />
       <workItem from="1683554615342" duration="162000" />
       <workItem from="1683554865573" duration="21315000" />
-      <workItem from="1683713690493" duration="1111000" />
+      <workItem from="1683713690493" duration="1451000" />
     </task>
     <task id="LOCAL-00001" summary="new">
       <created>1682868204582</created>
@@ -248,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683630952929</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="new">
+      <created>1683717199688</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683717199688</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
