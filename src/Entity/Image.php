@@ -28,6 +28,9 @@ class Image
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\OneToOne(mappedBy: 'image', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
@@ -76,5 +79,27 @@ class Image
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setImage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getImage() !== $this) {
+            $user->setImage($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
     }
 }

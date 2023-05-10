@@ -26,6 +26,10 @@
                     <a class="btn profile-edit-btn" href="{{ path('create_post') }}">New post</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_post') }}">Back</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">logout</a>
+                    {{ form_start(form,{'action':path('app_image',{id:user.id})}) }}
+                    {{ form_widget(form, {'attr': {'class': 'btn'}}) }}
+                    <button type="submit" class="btn btn-primary">envoyer</button>
+                    {{ form_end(form) }}
 
                     <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
