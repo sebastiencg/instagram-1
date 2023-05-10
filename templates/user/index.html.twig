@@ -15,7 +15,12 @@
 
                 <div class="profile-image">
 
-                    <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+                    <img src="{{ vich_uploader_asset(user.image, 'imageFile') }}" style="    overflow:hidden;
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    border-radius:100%;
+    width:200px;
+    height:200px;" >
 
                 </div>
 
@@ -26,9 +31,9 @@
                     <a class="btn profile-edit-btn" href="{{ path('create_post') }}">New post</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_post') }}">Back</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">logout</a>
-                    {{ form_start(form,{'action':path('app_image',{id:user.id})}) }}
-                    {{ form_widget(form, {'attr': {'class': 'btn'}}) }}
-                    <button type="submit" class="btn btn-primary">envoyer</button>
+                    {{ form_start(form,{'action':path('app_user_picture',{id:user.id})}) }}
+                    {{ form_widget(form.image, {'attr': {'class': 'btn'}}) }}
+                    <button type="submit" class="btn">Register</button>
                     {{ form_end(form) }}
 
                     <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>

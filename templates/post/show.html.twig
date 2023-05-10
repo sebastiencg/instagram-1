@@ -1022,7 +1022,7 @@
 
         <div class="row border-border-dark">
             <p><strong>{{ comment.content }}</strong></p>
-            <p>publié le : {{ comment.createdAt|date("d/m/Y") }}</p>
+            <p>publié le : {{ comment.createdAt|date("d/m/Y") }} par {{ comment.author.username }}</p>
         </div>
 
     {% endfor %}

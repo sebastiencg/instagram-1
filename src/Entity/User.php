@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -225,4 +225,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function serialize(): ?string
+    {
+        // TODO: Implement serialize() method.
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    public function unserialize(string $data)
+    {
+        // TODO: Implement unserialize() method.
+        list(
+            $this->id,
+            $this->username,
+            $this->password,
+            ) = unserialize($data);
+    }
+
+    public function __serialize(): array
+    {
+        // TODO: Implement __serialize() method.
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'password' => $this->password,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        // TODO: Implement __unserialize() method.
+        $this->id = $data['id'];
+        $this->username = $data['username'];
+        $this->password = $data['password'];
+    }
 }

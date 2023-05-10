@@ -2,22 +2,33 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
-use App\Form\ImageType;
+use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipsRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
-    public function index(PostRepository $postRepository,RelationshipsRepository $relationshipsRepository ): Response
-    {
-        $image=new Image();
-        $imageForm= $this->createForm(ImageType::class, $image);
+    #[Route('/user', name: 'app_user', priority: 2)]
+    #[Route('/user/{id}', name: 'app_user_picture', priority: 2)]
 
+    public function index(PostRepository $postRepository,RelationshipsRepository $relationshipsRepository, EntityManagerInterface $entityManager , Request $request, User $user=null): Response
+    {
+
+        $form= $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()&&$form->isValid()){
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_user');
+        }
         $posts=$postRepository->findBy(['author'=>$this->getUser()],['id'=>'DESC']);
         $friends=count($relationshipsRepository->findBy(['freind'=>$this->getUser()])) + count($relationshipsRepository->findBy(['user'=>$this->getUser()]));
         return $this->renderForm('user/index.html.twig', [
@@ -25,7 +36,7 @@ class UserController extends AbstractController
             'posts'=>$posts,
             'numberPost'=>count($posts),
             'friends'=>$friends,
-            'form'=>$imageForm
+            'form'=>$form
         ]);
     }
 }
