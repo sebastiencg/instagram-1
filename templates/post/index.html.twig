@@ -168,22 +168,14 @@
                                 </svg>
                             </div>
                         </div>
-                        <a href="#">
-                            <p class="likes">{{ post.avis }} likes</p>
-
-                        </a>
-                        <a href="#">
-                            <p class="message">
-                                <b>{{ post.content }}</b>
-                            </p>
-
-                        </a>
-                        <a href="#">
+                        <p class="likes">{{ post.avis }} likes</p>
+                        <p class="message">
+                            <b>{{ post.content }}</b>
+                        </p>
+                        <a href="{{ path('show_post',{id:post.id}) }}">
                             <h4 class="comments">View all 32 comments</h4>
                         </a>
-                        <a href="#">
-                            <h5 class="postTime">publié le {{ post.createdAt |date('d/m/y') }} à {{ post.createdAt |date('H:i') }}</h5>
-                        </a>
+                        <h5 class="postTime">publié le {{ post.createdAt |date('d/m/y') }} à {{ post.createdAt |date('H:i') }}</h5>
                         <div class="addComments">
                             <div class="reaction">
                                 <h3>

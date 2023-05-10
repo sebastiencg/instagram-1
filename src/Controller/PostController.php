@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaire;
 use App\Entity\Post;
+use App\Form\CommentaireType;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipsRepository;
@@ -61,6 +63,26 @@ class PostController extends AbstractController
         return $this->renderForm('post/create.html.twig', [
             'form'=>$form,
             'user'=>$this->getUser()
+        ]);
+    }
+    #[Route("/post/{id}", name:"show_post")]
+
+    public function show(Post $post, PostRepository $postRepository, RelationshipsRepository $relationshipsRepository):Response
+    {
+
+        $posts=$postRepository->findBy(['author'=>$this->getUser()],['id'=>'DESC']);
+        $friends=count($relationshipsRepository->findBy(['freind'=>$this->getUser()])) + count($relationshipsRepository->findBy(['user'=>$this->getUser()]));
+
+        $comment = new Commentaire();
+        $commentForm = $this->createForm(CommentaireType::class, $comment);
+
+        return $this->renderForm('post/show.html.twig', [
+            'user'=>$this->getUser(),
+            'post'=>$post,
+            'commentForm'=>$commentForm,
+            'posts'=>$posts,
+            'numberPost'=>count($posts),
+            'friends'=>$friends
         ]);
     }
 }
