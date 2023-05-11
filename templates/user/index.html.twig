@@ -14,14 +14,14 @@
             <div class="profile">
 
                 <div class="profile-image">
-
+                    {% if user.image is not null  %}
                     <img src="{{ vich_uploader_asset(user.image, 'imageFile') }}" style="    overflow:hidden;
     -webkit-border-radius:100%;
     -moz-border-radius:100%;
     border-radius:100%;
     width:200px;
     height:200px;" >
-
+{% endif %}
                 </div>
 
                 <div class="profile-user-settings">
@@ -33,6 +33,7 @@
                     <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">logout</a>
                     {{ form_start(form,{'action':path('app_user_picture',{id:user.id})}) }}
                     {{ form_widget(form.image, {'attr': {'class': 'btn'}}) }}
+                    {{ form_widget(form.bio, {'attr': {'class': '','placeholder':'Ma bio'}}) }}
                     <button type="submit" class="btn">Register</button>
                     {{ form_end(form) }}
 

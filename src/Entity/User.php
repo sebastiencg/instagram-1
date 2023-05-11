@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Profil $profil = null;
+
 
     public function __construct()
     {
@@ -261,5 +264,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         $this->id = $data['id'];
         $this->username = $data['username'];
         $this->password = $data['password'];
+    }
+
+    public function getProfil(): ?Profil
+    {
+        return $this->profil;
+    }
+
+    public function setProfil(?Profil $profil): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($profil === null && $this->profil !== null) {
+            $this->profil->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($profil !== null && $profil->getUser() !== $this) {
+            $profil->setUser($this);
+        }
+
+        $this->profil = $profil;
+
+        return $this;
     }
 }

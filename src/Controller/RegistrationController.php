@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Profil;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +19,10 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
+        $profil = new Profil();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -31,6 +34,10 @@ class RegistrationController extends AbstractController
             );
 
             $entityManager->persist($user);
+            $entityManager->flush();
+            //code perso il créer un profil
+            $profil->setUser($user);
+            $entityManager->persist($profil);
             $entityManager->flush();
             // do anything else you need here, like send an email
 

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Profil;
 use App\Entity\User;
+use App\Form\ProfilType;
 use App\Form\UserType;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipsRepository;
@@ -17,15 +19,15 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user', priority: 2)]
     #[Route('/user/{id}', name: 'app_user_picture', priority: 2)]
 
-    public function index(PostRepository $postRepository,RelationshipsRepository $relationshipsRepository, EntityManagerInterface $entityManager , Request $request, User $user=null): Response
+    public function index(PostRepository $postRepository,RelationshipsRepository $relationshipsRepository, EntityManagerInterface $entityManager , Request $request, Profil $profil=null): Response
     {
 
-        $form= $this->createForm(UserType::class, $user);
+
+        $form= $this->createForm(ProfilType::class, $profil);
         $form->handleRequest($request);
-
-
         if ($form->isSubmitted()&&$form->isValid()){
-            $entityManager->persist($user);
+            dd($form);
+            $entityManager->persist($profil);
             $entityManager->flush();
             return $this->redirectToRoute('app_user');
         }
