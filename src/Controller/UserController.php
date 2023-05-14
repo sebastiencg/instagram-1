@@ -17,20 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user', priority: 2)]
-    #[Route('/user/{id}', name: 'app_user_picture', priority: 2)]
+    #[Route('/user/profil/{id}', name: 'app_user_picture', priority: 2)]
 
-    public function index(PostRepository $postRepository,RelationshipsRepository $relationshipsRepository, EntityManagerInterface $entityManager , Request $request, Profil $profil=null): Response
+    public function index(PostRepository $postRepository,RelationshipsRepository $relationshipsRepository, Profil $profil=null): Response
     {
-
-
         $form= $this->createForm(ProfilType::class, $profil);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()&&$form->isValid()){
-            dd($form);
-            $entityManager->persist($profil);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_user');
-        }
         $posts=$postRepository->findBy(['author'=>$this->getUser()],['id'=>'DESC']);
         $friends=count($relationshipsRepository->findBy(['freind'=>$this->getUser()])) + count($relationshipsRepository->findBy(['user'=>$this->getUser()]));
         return $this->renderForm('user/index.html.twig', [

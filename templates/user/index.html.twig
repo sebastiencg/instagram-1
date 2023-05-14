@@ -14,8 +14,8 @@
             <div class="profile">
 
                 <div class="profile-image">
-                    {% if user.image is not null  %}
-                    <img src="{{ vich_uploader_asset(user.image, 'imageFile') }}" style="    overflow:hidden;
+                    {% if user.profil.image is not null  %}
+                    <img src="{{ vich_uploader_asset(user.profil.image, 'imageFile') }}" style="    overflow:hidden;
     -webkit-border-radius:100%;
     -moz-border-radius:100%;
     border-radius:100%;
@@ -31,7 +31,7 @@
                     <a class="btn profile-edit-btn" href="{{ path('create_post') }}">New post</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_post') }}">Back</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">logout</a>
-                    {{ form_start(form,{'action':path('app_user_picture',{id:user.id})}) }}
+                    {{ form_start(form,{'action':path('app_profil')}) }}
                     {{ form_widget(form.image, {'attr': {'class': 'btn'}}) }}
                     {{ form_widget(form.bio, {'attr': {'class': '','placeholder':'Ma bio'}}) }}
                     <button type="submit" class="btn">Register</button>
@@ -52,7 +52,7 @@
 
                 <div class="profile-bio">
 
-                    <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+                    <p><span class="profile-real-name">Ma Bio :</span> {{user.profil.bio}}</p>
 
                 </div>
 

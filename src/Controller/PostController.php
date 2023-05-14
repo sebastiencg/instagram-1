@@ -52,7 +52,6 @@ class PostController extends AbstractController
         $form = $this->createForm(PostType::class,$post);
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()){
-            dd($post);
             $post->setAuthor($this->getUser());
             $post->setCreatedAt(new \DateTime());
             $post->setAvis(0);

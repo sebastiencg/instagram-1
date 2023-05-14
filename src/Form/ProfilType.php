@@ -13,7 +13,7 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('bio')
-            ->add('image',ImageType::class)
+            ->add('image',ImageType::class,['required' => false])
         ;
     }
 
