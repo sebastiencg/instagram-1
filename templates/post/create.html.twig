@@ -395,17 +395,23 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
             <div class="profile">
 
                 <div class="profile-image">
-
-                    <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
-
+                    {% if user.profil.image is not null  %}
+                        <img src="{{ vich_uploader_asset(user.profil.image, 'imageFile') }}" style="    overflow:hidden;
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    border-radius:100%;
+    width:200px;
+    height:200px;" >
+                    {% endif %}
                 </div>
 
                 <div class="profile-user-settings">
 
                     <h1 class="profile-user-name">{{ user.username }}</h1>
 
-                    <a class="btn profile-edit-btn" href="{{ path('app_user') }}">Retour au profil</a>
-
+                    <a class="btn profile-edit-btn" href="{{ path('app_user') }}">Profil</a>
+                    <a class="btn profile-edit-btn" href="{{ path('app_post') }}">Home</a>
+                    <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">Logout</a>
                     <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
                 </div>
@@ -413,16 +419,15 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
                 <div class="profile-stats">
 
                     <ul>
-                        <li><span class="profile-stat-count">164</span> posts</li>
-                        <li><span class="profile-stat-count">188</span> followers</li>
-                        <li><span class="profile-stat-count">206</span> following</li>
+                        <li><span class="profile-stat-count">{{ numberPost }}</span> posts</li>
+                        <li><span class="profile-stat-count">{{ friends }}</span> followers</li>
                     </ul>
 
                 </div>
 
                 <div class="profile-bio">
 
-                    <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+                    <p><span class="profile-real-name">Ma Bio :</span> {{user.profil.bio}}</p>
 
                 </div>
 
@@ -433,11 +438,19 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
         <!-- End of container -->
 
     </header>
-    {{ form_start(form) }}
-    {{ form_widget(form.content, { 'attr': {'placeholder': 'contenu','class':' col-6'}  }) }}
-    {{ form_widget(form.image, {'attr': {'class': 'btn'}}) }}
-    <button type="submit" class="btn btn-primary">envoyer</button>
-    {{ form_end(form) }}
+    <div class="container">
+        {{ form_start(form) }}
+        <div class="form-floating h6">
+            {{ form_widget(form.content, { 'attr': {'class':'form-control'}  }) }}
+            <label for="floatingTextarea">Post</label>
+        </div>
+        <div class="mb-3">
+            {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <button type="submit" class="btn btn-primary">envoyer</button>
+        {{ form_end(form) }}
+    </div>
+
 
 
 {% endblock %}

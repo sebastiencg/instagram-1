@@ -6,6 +6,7 @@ use App\Entity\Commentaire;
 use App\Entity\Post;
 use App\Form\CommentaireType;
 use App\Form\PostType;
+use App\Repository\CommentaireRepository;
 use App\Repository\PostRepository;
 use App\Repository\RelationshipsRepository;
 use App\Repository\UserRepository;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     #[Route('/post', name: 'app_post')]
-    public function index(PostRepository $postRepository, UserRepository $userRepository,RelationshipsRepository $relationshipsRepository): Response
+    public function index(PostRepository $postRepository, UserRepository $userRepository,RelationshipsRepository $relationshipsRepository ): Response
     {
 
         return $this->render('post/index.html.twig', [
@@ -26,29 +27,14 @@ class PostController extends AbstractController
             'users'=>$userRepository->findBy([],['id'=>'DESC'],5),
             'userConnected'=>$this->getUser(),
             'relationList1'=>$relationshipsRepository->findBy(['user'=>$this->getUser()],['id'=>'DESC'],3),
-            'relationList2'=>$relationshipsRepository->findBy(['freind'=>$this->getUser()],['id'=>'DESC'],3)
+            'relationList2'=>$relationshipsRepository->findBy(['freind'=>$this->getUser()],['id'=>'DESC'],3),
         ]);
     }
     #[Route('/post/create', name: 'create_post')]
-    public function create(Request $request , EntityManagerInterface $entityManager): Response
+    public function create(Request $request , EntityManagerInterface $entityManager ,PostRepository $postRepository,RelationshipsRepository $relationshipsRepository): Response
     {
-        /*$post=new Post();
-
-                $form= $this->createForm(PostType::class, $post);
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid()){
-                    $entityManager->persist($post);
-                    $entityManager->flush();
-
-                    return $this->redirectToRoute('app_user');
-                }
-
-                return $this->render('post/create.html.twig', [
-                    'postForm'=>$form->createView(),
-                ]);*/
 
         $post = new Post();
-
         $form = $this->createForm(PostType::class,$post);
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()){
@@ -60,9 +46,13 @@ class PostController extends AbstractController
 
             return $this->redirectToRoute('app_user');
         }
+        $posts=$postRepository->findBy(['author'=>$this->getUser()],['id'=>'DESC']);
+        $friends=count($relationshipsRepository->findBy(['freind'=>$this->getUser()])) + count($relationshipsRepository->findBy(['user'=>$this->getUser()]));
         return $this->renderForm('post/create.html.twig', [
+            'user'=>$this->getUser(),
+            'numberPost'=>count($posts),
+            'friends'=>$friends,
             'form'=>$form,
-            'user'=>$this->getUser()
         ]);
     }
     #[Route("/post/{id}", name:"show_post")]
@@ -77,7 +67,7 @@ class PostController extends AbstractController
         $commentForm = $this->createForm(CommentaireType::class, $comment);
 
         return $this->renderForm('post/show.html.twig', [
-            'user'=>$this->getUser(),
+            'user'=>$post->getAuthor(),
             'post'=>$post,
             'commentForm'=>$commentForm,
             'posts'=>$posts,

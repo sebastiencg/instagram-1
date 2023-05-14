@@ -46,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Profil $profil = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Relationships::class)]
+    private Collection $relationships2;
+
 
     public function __construct()
     {
@@ -284,6 +287,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         }
 
         $this->profil = $profil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relationships>
+     */
+    public function getRelationships2(): Collection
+    {
+        return $this->relationships2;
+    }
+
+    public function addRelationships2(Relationships $relationships2): self
+    {
+        if (!$this->relationships2->contains($relationships2)) {
+            $this->relationships2->add($relationships2);
+            $relationships2->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelationships2(Relationships $relationships2): self
+    {
+        if ($this->relationships2->removeElement($relationships2)) {
+            // set the owning side to null (unless already changed)
+            if ($relationships2->getUser() === $this) {
+                $relationships2->setUser(null);
+            }
+        }
 
         return $this;
     }

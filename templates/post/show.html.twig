@@ -946,18 +946,20 @@
             <div class="profile">
 
                 <div class="profile-image">
-
-                    <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
-
+                    {% if user.profil.image is not null  %}
+                        <img src="{{ vich_uploader_asset(user.profil.image, 'imageFile') }}" style="    overflow:hidden;
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    border-radius:100%;
+    width:200px;
+    height:200px;" >
+                    {% endif %}
                 </div>
 
                 <div class="profile-user-settings">
 
                     <h1 class="profile-user-name">{{ user.username }}</h1>
-
-                    <a class="btn profile-edit-btn" href="{{ path('create_post') }}">New post</a>
                     <a class="btn profile-edit-btn" href="{{ path('app_post') }}">Back</a>
-                    <a class="btn profile-edit-btn" href="{{ path('app_logout') }}">logout</a>
 
                     <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
@@ -974,7 +976,7 @@
 
                 <div class="profile-bio">
 
-                    <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+                    <p><span class="profile-real-name">Bio :</span> {{user.profil.bio}}</p>
 
                 </div>
 
@@ -1013,17 +1015,23 @@
         </div>
         <!-- End of container -->
     </main>
-    <h3>Write a comment</h3>
-    {{ form_start(commentForm,{'action':path('create_commentaire',{id:post.id})}) }}
-    {{ form_widget(commentForm.content, { 'attr': {'placeholder': 'contenu','class':' col-6'}  }) }}
-    <button type="submit" class="btn btn-primary">envoyer</button>
-    {{ form_end(commentForm) }}
-    {% for comment in post.commentaires %}
+    <div class="container">
+        <h3>Commentaire</h3>
+        {{ form_start(commentForm,{'action':path('create_commentaire',{id:post.id})}) }}
+        {{ form_widget(commentForm.content, { 'attr': {'placeholder': 'Ajouter un commentaire...','class':' text border','style':'padding-bottom: 10px ; padding-top: 10px; font-size: 20px' } }) }}
+        <button type="submit" class="btn btn-primary">envoyer</button>
+        {{ form_end(commentForm) }}
+        <br>
+        <br>
+        {% for comment in post.commentaires %}
 
-        <div class="row border-border-dark">
-            <p><strong>{{ comment.content }}</strong></p>
-            <p>publié le : {{ comment.createdAt|date("d/m/Y") }} par {{ comment.author.username }}</p>
-        </div>
+            <div class="row border-border-dark">
+                <p><strong>{{ comment.content }}</strong></p>
+                <p>publié le : {{ comment.createdAt|date("d/m/Y") }} par {{ comment.author.username }}</p>
+            </div>
+            <br>
+            <hr>
+        {% endfor %}
+    </div>
 
-    {% endfor %}
 {% endblock %}
