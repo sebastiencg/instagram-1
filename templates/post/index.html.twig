@@ -245,9 +245,7 @@
                             </h3>
                         </div>
                         <div>
-                            <a href="#"
-                               class="follow">follow
-                            </a>
+                            <a href="{{ path('app_relationships',{id:user.id}) }}" class="follow">follow</a>
                         </div>
                     </div>
                         {% endif %}
@@ -275,4 +273,28 @@
             </div>
         </div>
     </main>
+<script>
+    function follow(event){
+        event.preventDefault()
+
+        fetch(this.href)
+            .then(response=>response.json())
+            .then((data)=>{
+                alert(data.response);
+            })
+
+    }
+</script>
+    <!--
+        let url="https://droppingstuff.imatrythis.tk/b1devweb/api/posts"
+
+    let fetchParametre = {
+        headers:{"Content-Type": "application/json"},
+        method : "GET"
+    }
+
+    fetch(url,fetchParametre)
+        .then((donnees) => (donnees.json()))
+        .then(donnee => {
+    ->
 {% endblock %}
